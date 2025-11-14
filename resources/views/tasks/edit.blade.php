@@ -27,6 +27,18 @@
       <textarea name="description" class="form-control">{{ old('description', $task->description) }}</textarea>
     </div>
 
+    <div class="mb-3">
+      <label class="form-label">Category</label>
+      <select name="category_id" class="form-control">
+        <option value="">-- Select a Category --</option>
+        @foreach($categories as $category)
+          <option value="{{ $category->id }}" {{ old('category_id', $task->category_id) == $category->id ? 'selected' : '' }}>
+            {{ $category->name }}
+          </option>
+        @endforeach
+      </select>
+    </div>
+
     <div class="form-check mb-3">
       <input class="form-check-input" type="checkbox" name="is_completed" id="is_completed" {{ old('is_completed', $task->is_completed) ? 'checked' : '' }}>
       <label class="form-check-label" for="is_completed">Completed</label>

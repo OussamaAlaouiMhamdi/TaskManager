@@ -4,9 +4,9 @@
   <div class="d-flex justify-content-between align-items-center mb-3">
     <h1>All Tasks</h1>
     <div>
-      <a href="{{ route('tasks.index', ['filter' => 'all']) }}" class="btn btn-outline-secondary btn-sm">All</a>
-      <a href="{{ route('tasks.index', ['filter' => 'completed']) }}" class="btn btn-outline-success btn-sm">Completed</a>
-      <a href="{{ route('tasks.index', ['filter' => 'incomplete']) }}" class="btn btn-outline-warning btn-sm">Incomplete</a>
+      <a href="{{ route('tasks.index', ['filter' => 'all']) }}" class="btn btn-outline-secondary btn-sm {{ $filter === 'all' ? 'active' : '' }}">All</a>
+      <a href="{{ route('tasks.index', ['filter' => 'completed']) }}" class="btn btn-outline-success btn-sm {{ $filter === 'completed' ? 'active' : '' }}">Completed</a>
+      <a href="{{ route('tasks.index', ['filter' => 'incomplete']) }}" class="btn btn-outline-warning btn-sm {{ $filter === 'incomplete' ? 'active' : '' }}">Incomplete</a>
     </div>
   </div>
 
@@ -18,6 +18,7 @@
         <tr>
           <th>Done</th>
           <th>Title</th>
+          <th>Category</th>
           <th>Description</th>
           <th>Created</th>
           <th>Actions</th>
@@ -33,6 +34,7 @@
               @method('PUT')
               <input type="hidden" name="title" value="{{ $task->title }}">
               <input type="hidden" name="description" value="{{ $task->description }}">
+              <input type="hidden" name="category_id" value="{{ $task->category_id }}">
               @if($task->is_completed)
                 <input type="hidden" name="is_completed" value="0">
                 <button class="btn btn-sm btn-success" type="submit" title="Mark incomplete">✓</button>
@@ -44,6 +46,13 @@
           </td>
           <td @if($task->is_completed) style="text-decoration:line-through;color:gray" @endif>
             {{ $task->title }}
+          </td>
+          <td>
+            @if($task->category)
+              <span class="badge bg-primary">{{ $task->category->name }}</span>
+            @else
+              <span class="text-muted">-</span>
+            @endif
           </td>
           <td>{{ \Illuminate\Support\Str::limit($task->description, 80) }}</td>
           <td>{{ $task->created_at->format('Y-m-d') }}</td>
