@@ -19,5 +19,4 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-// API routes for tasks (no authentication required for this example, add 'auth:sanctum' if needed)
 Route::apiResource('tasks', TaskController::class, ['names' => 'api.tasks']);
